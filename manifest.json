@@ -4,10 +4,12 @@
     "name": "Folder Watcher",
     "version": "1.0.0",
     "main": "index.html",
-    "host": {
-        "app": "PProHeadless",
-        "minVersion": "25.5"
-    },
+    "host": [
+        {
+            "app": "PP",
+            "minVersion": "25.0"
+        }
+    ],
     "entrypoints": [
         {
             "type": "panel",
