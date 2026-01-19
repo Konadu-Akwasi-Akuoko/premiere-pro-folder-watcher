@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Folder Watcher</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="panel">
+        <header class="header">
+            <h1 class="title">Folder Watcher</h1>
+            <div class="status">
+                <span class="status-indicator" id="statusIndicator"></span>
+                <span class="status-text" id="statusText">Disconnected</span>
+            </div>
+        </header>
+
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Watch Folders</h2>
+                <button class="btn btn-primary" id="addWatchBtn">
+                    <span class="btn-icon">+</span>
+                    Add Folder
+                </button>
+            </div>
+            <div class="watch-list" id="watchList">
+                <div class="empty-state" id="emptyState">
+                    <p>No folders being watched</p>
+                    <p class="hint">Click "Add Folder" to start watching a directory</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Activity Log</h2>
+                <button class="btn btn-secondary btn-small" id="clearLogBtn">Clear</button>
+            </div>
+            <div class="log-container" id="logContainer">
+                <div class="log-empty">No activity yet</div>
+            </div>
+        </section>
+    </div>
+
+    <script src="modules/websocket.js"></script>
+    <script src="modules/premiere.js"></script>
+    <script src="modules/binary.js"></script>
+    <script src="modules/storage.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>

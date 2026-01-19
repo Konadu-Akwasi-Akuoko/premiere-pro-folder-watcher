@@ -1,0 +1,45 @@
+# Rust
+target/
+rust-watcher/target/
+**/*.rs.bk
+Cargo.lock
+
+# Binaries (keep bin/ structure but ignore actual binaries)
+bin/mac/folder-watcher
+bin/win/folder-watcher.exe
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Node / npm (if added later)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# UXP plugin build artifacts
+*.ccx
+*.zxp
+
+# Environment and local config
+.env
+.env.local
+*.local
+
+# Logs
+logs/
+*.log
+
+# Debug files
+debug/
+*.dSYM/
