@@ -4,6 +4,8 @@ import { version } from "./package.json";
 const extraPrefs = {
   hotReloadPort: 8080,
   copyZipAssets: ["public-zip/*"],
+  webviewUi: false,
+  webviewReloadPort: 8081,
 };
 
 export const id = "com.folderwatcher.uxp";
