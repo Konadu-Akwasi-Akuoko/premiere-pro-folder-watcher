@@ -1,0 +1,79 @@
+/* Basic styles for Premiere Pro dark theme */
+:root {
+  --bg-primary: #1e1e1e;
+  --bg-secondary: #2d2d2d;
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --accent: #0d99ff;
+  --border: #404040;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Adobe Clean", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  padding: 12px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+h1 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+p {
+  color: var(--text-secondary);
+}
+
+button {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.watch-list {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 12px;
+  min-height: 100px;
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+li:last-child {
+  border-bottom: none;
+}
