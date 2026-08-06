@@ -1,9 +1,74 @@
 import { premierepro } from "../globals";
 import { asTransaction, lockedTransaction } from "./utils/premierepro-utils";
+import type { FolderItem, Project, ProjectItem } from "../types/ppro";
+
+const TYPE_BIN = 1;
 
 export const notify = async (message: string) => {
   alert(message);
 };
+
+/**
+ * Gets the root bin (folder) of the active project.
+ */
+export async function getRootBin(): Promise<FolderItem> {
+  const project = await premierepro.Project.getActiveProject();
+  return project.getRootItem();
+}
+
+/**
+ * Finds a child bin by name within a parent folder.
+ * Returns null if not found.
+ */
+export async function findChildBin(
+  parent: FolderItem,
+  name: string
+): Promise<FolderItem | null> {
+  const items = await parent.getItems();
+  const found = items.find(
+    (item: ProjectItem) => item.name === name && item.type === TYPE_BIN
+  );
+  if (found) {
+    return premierepro.FolderItem.cast(found);
+  }
+  return null;
+}
+
+/**
+ * Creates a new bin inside the parent folder.
+ * Uses a locked transaction for thread safety.
+ */
+export async function createBinInParent(
+  parent: FolderItem,
+  name: string
+): Promise<FolderItem> {
+  const project = await premierepro.Project.getActiveProject();
+  await lockedTransaction(
+    project,
+    [parent.createBinAction(name, false)],
+    `Create Bin: ${name}`
+  );
+  const newBin = await findChildBin(parent, name);
+  if (!newBin) {
+    throw new Error(`Failed to create bin: ${name}`);
+  }
+  return newBin;
+}
+
+/**
+ * Imports files into a target bin.
+ * @param filePaths - Array of absolute file paths to import
+ * @param targetBin - The bin to import files into
+ * @returns true if import succeeded
+ */
+export async function importFilesToBin(
+  filePaths: string[],
+  targetBin: FolderItem
+): Promise<boolean> {
+  const project = await premierepro.Project.getActiveProject();
+  const targetAsProjectItem = premierepro.ProjectItem.cast(targetBin);
+  return project.importFiles(filePaths, true, targetAsProjectItem, false);
+}
 
 export const createBin = async (name: string) => {
   const project = await premierepro.Project.getActiveProject();
