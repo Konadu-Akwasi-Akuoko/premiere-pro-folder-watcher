@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
+import { useWatchFolders } from "./hooks/useWatchFolders";
+import { WatchList } from "./components/WatchList";
+import { AddFolderButton } from "./components/AddFolderButton";
+import { SyncButton } from "./components/SyncButton";
+import { ActivityLog } from "./components/ActivityLog";
 
 declare global {
   namespace JSX {
@@ -12,28 +17,34 @@ declare global {
 }
 
 export const App = () => {
-  const [watchFolders, setWatchFolders] = useState<string[]>([]);
+  const {
+    folders,
+    isLoading,
+    isSyncing,
+    activityLog,
+    addFolder,
+    removeFolder,
+    syncAll,
+    clearLog,
+  } = useWatchFolders();
 
   return (
     <main>
       <h1>Folder Watcher</h1>
-      <p>Watch folders and auto-import media to Premiere Pro</p>
-
-      <div className="watch-list">
-        {watchFolders.length === 0 ? (
-          <p className="empty-state">No folders being watched</p>
-        ) : (
-          <ul>
-            {watchFolders.map((folder, i) => (
-              <li key={i}>{folder}</li>
-            ))}
-          </ul>
-        )}
+      <WatchList
+        folders={folders}
+        onRemove={removeFolder}
+        isLoading={isLoading}
+      />
+      <div className="button-group">
+        <AddFolderButton onAdd={addFolder} disabled={isSyncing} />
+        <SyncButton
+          onSync={syncAll}
+          isSyncing={isSyncing}
+          disabled={folders.length === 0}
+        />
       </div>
-
-      <button onClick={() => console.log("Add folder clicked")}>
-        Add Folder
-      </button>
+      <ActivityLog entries={activityLog} onClear={clearLog} />
     </main>
   );
 };
