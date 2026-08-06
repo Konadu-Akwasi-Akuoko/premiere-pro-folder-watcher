@@ -1,6 +1,6 @@
 import { isMediaFile } from "../api/filesystem";
 import { uxp } from "../globals";
-import type { FileEntry, ScanResult } from "../types/watcher";
+import type { FileEntry, ScanResult, PickerScanResult } from "../types/watcher";
 
 type Folder = Awaited<
   ReturnType<typeof uxp.storage.localFileSystem.getFolder>
@@ -100,18 +100,34 @@ export async function scanFolder(
 }
 
 /**
+ * Extracts the folder name from a native path.
+ */
+function getFolderNameFromPath(path: string): string {
+  const normalized = path.replace(/\\/g, "/").replace(/\/$/, "");
+  return normalized.split("/").pop() || path;
+}
+
+/**
  * Opens a folder picker and scans the selected folder for media files.
  * @param watchId - Identifier for this watch operation
- * @returns ScanResult or null if user cancels the picker
+ * @returns PickerScanResult containing folder info and scan result, or null if user cancels
  */
 export async function pickAndScanFolder(
   watchId: string,
-): Promise<ScanResult | null> {
+): Promise<PickerScanResult | null> {
   const folder = await uxp.storage.localFileSystem.getFolder();
 
   if (!folder) {
     return null;
   }
 
-  return scanFolder(folder, watchId);
+  const folderPath = (folder as NonNullable<Folder> & { nativePath: string })
+    .nativePath;
+  const scanResult = await scanFolder(folder, watchId);
+
+  return {
+    folderPath,
+    folderName: getFolderNameFromPath(folderPath),
+    scanResult,
+  };
 }

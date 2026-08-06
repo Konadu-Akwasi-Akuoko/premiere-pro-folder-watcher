@@ -21,6 +21,12 @@ export interface ScanResult {
   scannedAt: Date;
 }
 
+export interface PickerScanResult {
+  folderPath: string;
+  folderName: string;
+  scanResult: ScanResult;
+}
+
 export interface ImportResult {
   file: FileEntry;
   success: boolean;
